@@ -1,16 +1,16 @@
 /// House Keeping ///
 // Name: Warren Kavanagh 
-// Email: C16463344
+// Email:  C16463344@MyTUDublin.ie
 // Description:
 //  This script is used to seed data to the MySQL database
 //  The data seeded to the database is a sample database which can be found at https://www.mysqltutorial.org/mysql-sample-database.aspx
 //  The SQL code is contained in the file mysqlsampledatabase.sql
 
 /// Imports ///
-// getCon - Function to get a connectin from the connection pool 
+// pool - MySQL connection pool
 // fs  - File reader module, used to read in the SQL file 
 // path - Path module for directory traversal 
-import getCon from '../connection/mysqldb.js'
+import pool from '../connection/mysqldb.js'
 import fs from 'fs'
 import path from 'path';
 
@@ -23,20 +23,18 @@ const __dirname = path.resolve();
 //  Reads in the contents of the file mysqlsampledatabase.sql 
 //  If a database "classicmodels" exists it deletes it to reset the database 
 //  Writes the SQL then to the database 
-async function seedData(){
-    try{
-        // Read in the contents of the SQL file 
-        const sqlFileData = fs.readFileSync(`${__dirname}/database/seeding/mysqlsampledatabase.sql`,{encoding: "utf-8"})
-        // Get a database connection from the connection pool 
-        let con = await getCon();
-        // Execute the contents of the SQL file 
-        let result = await con.query(sqlFileData);
-        console.log("Data sucfully seeded to classicmodels database");
-        process.exit();
-    }catch(error){
-        console.log(`Error in seeding the data ${error}`);
-        process.exit(1);
-    }
+function seedData(){
+    // Read in the contents of the SQL file 
+    const sqlFileData = fs.readFileSync(`${__dirname}/database/seeding/mysqlsampledatabase.sql`,{encoding: "utf-8"})
+    // Execute the contents of the SQL file 
+    pool.query(sqlFileData, (err, rows) => {
+        if(err){
+            throw err;
+        }else{
+            console.log("Data sucfully seeded to classicmodels database");
+            process.exit(0);
+        }
+    });
 }
 
 // Call seedData function 

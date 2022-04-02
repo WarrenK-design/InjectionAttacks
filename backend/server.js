@@ -1,14 +1,15 @@
 /// House Keeping ///
 // Name: Warren Kavanagh 
-// Email: C16463344
+// Email:  C16463344@MyTUDublin.ie
 // Description:
 //  Starts the express application running on the server port so HTTP messages can be recieved 
 //  Also sets up the database connection for the application 
 
 /// Imports ///
 // app - This is the express app for the backend 
-// dotenv - Used for reading in enviroment variables 
-import app from './app.js';
+// dotenv - Used for reading in enviroment variables
+// pool - Database connection pool used to get database connection, not used but called to establish initial connection here  
+import app from './app.js'
 import dotenv from 'dotenv';
 import pool from './database/connection/mysqldb.js'
 

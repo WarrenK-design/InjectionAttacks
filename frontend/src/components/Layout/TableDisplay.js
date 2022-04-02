@@ -1,6 +1,6 @@
 /// House Keeping ///
 // Name: Warren Kavanagh 
-// Email: C16463344
+// Email:  C16463344@MyTUDublin.ie
 // Description:
 //  Component used for the table to display the data returned from API 
 
@@ -8,32 +8,13 @@
 import {Table} from 'react-bootstrap';
 
 
-
+/// TableDisplay ///
+// Description:
+//  Is used to display the results returned from the SQL injection attack in a table 
+// Inputs:
+//  theads - Arrray of the headers of the table
+//  data   - The data which will make up the rows of the table 
 function TableDisplay({theads,data}){
-
-
-    function getTableData(){
-        let element = []
-        data.map((object,index) => {
-            element.push('<tr>')
-            for(let key in object){
-                let val = object[key]
-                let string = `<td>${object[key]}</td>`
-                element.push(string)
-            }
-            element.push('</tr>')
-        })
-        let result = element.join(' ')
-        console.log(result)
-        return element
-        //data.forEach(d =>{
-        //    console.log(`HERE d ${d}`)
-        //    Object.values(data).forEach(text =>{
-        //        console.log(`HERE TEXT ${text}`)
-        //    })
-        //})
-    }
-
 
     return(
         <Table>

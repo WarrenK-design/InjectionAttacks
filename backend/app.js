@@ -1,6 +1,6 @@
 /// House Keeping ///
 // Name: Warren Kavanagh 
-// Email: C16463344
+// Email:  C16463344@MyTUDublin.ie
 // Description:
 //  This file holds the express app and attaches all routes and middleware used to it 
 
@@ -14,6 +14,8 @@ import express from 'express';
 import path from 'path';
 import cors from 'cors';
 import unsafeRoutes from './routes/unsafeRoutes.js';
+import saferoutes from './routes/safeRoutes.js';
+import {errorHandler,notFoundHandler} from './middleware/errorMiddleware.js'
 
 // Vars //
 // app - Instance of an express application 
@@ -32,6 +34,11 @@ app.use(express.json());
 
 /// Routes ///
 app.use('/unsafe',unsafeRoutes);
+app.use('/safe',saferoutes)
+
+/// Middleware ///
+app.use(notFoundHandler);
+app.use(errorHandler)
 
 
 export default app;

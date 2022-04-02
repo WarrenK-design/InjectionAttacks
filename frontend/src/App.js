@@ -6,7 +6,7 @@
 
 // Imports //
 // react-router-dom - Allows rendering of components for different urls 
-import {BrowserRouter as Router,Routes,Route,Navigate } from 'react-router-dom';
+import {BrowserRouter as Router,Routes,Route} from 'react-router-dom';
 
 
 
@@ -17,8 +17,11 @@ import Footer from './components/Layout/Footer';
 import { Container } from 'react-bootstrap';
 
 /// Screens ///
-// sqlinjection - This is the screen display at the route /sqlinjection 
+// sqlinjection     - This is the screen display at the route /sqlinjection 
+// CommandInjection - This is the screen for the command injection route /commandinjection  
 import SQLinjection from './screens/SQLinjection';
+import CommandInjection from './screens/CommandInjection';
+import HomeScreen from './screens/Home'
 
 /// App ///
 // Description:
@@ -31,7 +34,9 @@ function App() {
       <main>
         <Container>
           <Routes>
+            <Route path="/" element={<HomeScreen/>}></Route>
             <Route path="/sqlinjection" element={<SQLinjection/>}></Route>
+            <Route path="/commandinjection" element={<CommandInjection/>}></Route>
           </Routes>
         </Container>
       </main>

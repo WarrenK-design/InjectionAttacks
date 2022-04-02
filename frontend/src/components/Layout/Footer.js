@@ -1,6 +1,6 @@
 /// House Keeping ///
 // Name: Warren Kavanagh 
-// Email: C16463344
+// Email: C16463344@MyTUDublin.ie
 // Description:
 //  This component is the header which appears at the top of every page
 
