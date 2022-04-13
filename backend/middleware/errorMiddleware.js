@@ -2,7 +2,7 @@
 // Name: Warren Kavanagh 
 // Email:  C16463344@MyTUDublin.ie
 // Description:
-//  This dile holds the error middleware, used to give more meangingful errors 
+//  This file holds the error middleware, used to give more meangingful errors 
 
 
 /// errorHandler ///

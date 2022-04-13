@@ -17,20 +17,26 @@ const __dirname = path.resolve();
 //  This is the controller for the route /safe/sqlinjection
 //  It performs the SQL query safely by escaping special characthers in the search string and 
 //  does not execute any injected SQL commands on the database 
+// Inputs:
+//  req  - The Express request object, contains information about the HTTP request 
+//  res  - The Express response object, used to send the response to the client 
+//  next - Express function used to call next middleware if required  
 function sqlInjection(req,res,next){
     // *** GOOD CODE ***
     // The method "escape" is used now when preparing the query to be executed on the database
     // What this does is escape special characthers which are part of the SQL lanaguage 
     // This means that they will not be treated as SQL but instead as string literals 
+    // escape method - https://www.npmjs.com/package/mysql#escaping-query-values 
     let query = "SELECT * FROM products WHERE productLine LIKE "+pool.escape('%'+req.query.product+'%')
     console.log(`Query from /safe/sqlinjection ${query}`)
     // Execute the query 
     pool.query(query,(err, rows) => {
+        // Check if there is an error executing the command 
         if(err) {
             console.log(err)
             throw err;
         }
-        // Check if there is a result if not return an error message
+        // Check if there is a result, if not return an error message
         if(!rows.length){
             res.errormessage = `No results found, query is ${query}`
             return next(new Error(`No results for the search query ${query}`));
@@ -41,11 +47,16 @@ function sqlInjection(req,res,next){
   });
 }
 
+
 /// commandInjection ///
 // Description:
-//  This function is the controller for /safe/commandinjection
+//  This function is the controller for /safe/commandinjection API Route
 //  It safely reads the contents of a supplied directory in the request parameters 
 //  without executing shell code. Instead a built in javascript library is used to read the contents of the directory
+// Inputs:
+//  req  - The Express request object, contains information about the HTTP request 
+//  res  - The Express response object, used to send the response to the client 
+//  next - Express function used to call next middleware if required  
 function commandInjection(req,res,next){
     // *** GOOD CODE *** //
     // The query parameter is being parsed here from the http request the same way 

@@ -13,7 +13,11 @@ import {exec} from 'child_process';
 /// sqlInjection ///
 // Description:
 //  This function makes a database call to an SQL database and is intended to look up data from the 
-//  products table based upon the 
+//  products table based upon the query paramter supplied by the user called product 
+// Inputs:
+//  req  - The Express request object, contains information about the HTTP request 
+//  res  - The Express response object, used to send the response to the client 
+//  next - Express function used to call next middleware if required  
 function sqlInjection(req,res,next){
     // *** BAD CODE ***
     // The SQL query is designed to search products in the products table using a product 
@@ -25,19 +29,22 @@ function sqlInjection(req,res,next){
     console.log(`Query from /unsafe/sqlinjection ${query}`)
     // Execute the query 
     pool.query(query, (err, rows) => {
+        // If there is some database error throw it 
         if(err) {
             throw err;
         }
+        // Check if we have any results for the query 
         if(!rows.length){
             res.errormessage = `No results found, query is ${query}`
             return next(new Error(`No results for the search query ${query}`));
-        }else if (rows[0].constructor.name == 'Array'){
-            res.json(rows[0])
+        }else if (rows[0].constructor.name == 'Array'){ // If multiple querys executed you will get back an array
+            res.json(rows[0]) // Only return first element of array, second element is metadata we dont want
         }else{
-            res.json(rows)
+            res.json(rows) // Not an array ok to just resturn result in JSON form 
         }
   });
 }
+
 
 
 /// commandInjection ///
@@ -46,6 +53,10 @@ function sqlInjection(req,res,next){
 //  The route accepts a query parameter which is supposed to be a folder name and the contents
 //  of this folder will then be returned to the client. It the javascipt exec command to do this which
 //  is vulnerable to command inejection as it executes shell commands 
+// Inputs:
+//  req  - The Express request object, contains information about the HTTP request 
+//  res  - The Express response object, used to send the response to the client 
+//  next - Express function used to call next middleware if required  
 function commandInjection(req,res,next){
     // *** BAD CODE //
     // The query parameter is being parsed here from the http method which should only be a folder name 
@@ -53,12 +64,14 @@ function commandInjection(req,res,next){
     // shell command executeed, meaning the user can inject any shell command into the query parameter and it will be executed. 
     let folder = req.query.folder;
     exec(`ls ${folder}`, (error, stdout, stderr) => {
+        // Check if there is an error executing the command 
         if(error){
             console.log(`Error at commandInjection controller ${error}`)
             res.errormessage = `Could not read data from ${req.query.folder}`
             return next(new Error(`Could not read data from ${req.query.folder}`));
         }else{
-            console.log(`\nOutput from /safe/sqlinjection?folder=${req.query.folder }\n${stdout}`);
+            // No Error return the result
+            console.log(`\nOutput from /safe/commandinjection?folder=${req.query.folder }\n${stdout}`);
             res.send(stdout);
         }
     })

